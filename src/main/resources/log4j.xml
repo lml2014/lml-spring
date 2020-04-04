@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE log4j:configuration PUBLIC "-//log4j/log4j Configuration//EN" "log4j.dtd">
+
+<log4j:configuration>
+    <!-- 将日志信息输出到控制台 -->
+    <appender name="Console" class="org.apache.log4j.ConsoleAppender">
+        <!-- 设置日志输出的样式 -->
+        <layout class="org.apache.log4j.PatternLayout">
+            <!-- 设置日志输出的格式 -->
+            <param name="ConversionPattern" value="[%d{yyyy-MM-dd HH:mm:ss:SSS}] [%-5p] [%l]%n%m%n"/>
+        </layout>
+        <!--过滤器设置输出的级别-->
+        <filter class="org.apache.log4j.varia.LevelRangeFilter">
+            <!-- 设置日志输出的最小级别 -->
+            <param name="levelMin" value="DEBUG"/>
+            <!-- 设置日志输出的最大级别 -->
+            <param name="levelMax" value="ERROR"/>
+            <!-- 设置日志输出的xxx，默认是false -->
+            <param name="AcceptOnMatch" value="true"/>
+        </filter>
+    </appender>
+
+    <logger name="org.springframework" additivity="false">
+        <appender-ref ref="Console"/>
+    </logger>
+
+    <!--    <logger name=""-->
+
+    <!-- 指定logger的设置，additivity指示是否遵循缺省的继承机制-->
+    <logger name="com.lml.part.spring" additivity="false">
+        <appender-ref ref="Console"/>
+    </logger>
+
+    <!-- 根logger的设置-->
+    <root>
+        <priority value="debug"/>
+        <appender-ref ref="Console"/>
+    </root>
+</log4j:configuration>

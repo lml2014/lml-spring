@@ -17,4 +17,6 @@ public interface IUserService {
     List<User> selectAll();
 
     int insertSlowUser(String name);
+
+    List<Integer> insertSlowUsers(List<String> names);
 }

@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author shuishan
@@ -61,6 +62,28 @@ public class UserService implements IUserService {
             }
 
             return id;
+        });
+        logger.debug("thread[" + Thread.currentThread() + "] slow insert success, took:" + (System.currentTimeMillis() - start));
+        return result;
+    }
+
+    @Override
+    @Transactional
+    public List<Integer> insertSlowUsers(List<String> names) {
+        logger.debug("thread[" + Thread.currentThread() + "] start slow insert users, names:" + names);
+        long start = System.currentTimeMillis();
+
+        List<MysqlLock> locks = names.stream().map(this::buildLock).collect(Collectors.toList());
+        List<Integer> result = mysqlLockService.locks(locks, () -> {
+            List<Integer> ids = names.stream().map(name -> userMapper.insert(name)).collect(Collectors.toList());
+            try {
+                logger.debug("thread[" + Thread.currentThread() + "] sleep, ids: " + ids);
+                Thread.sleep(20 * 1000);
+            } catch (InterruptedException e) {
+                logger.error("thread[" + Thread.currentThread() + "] interrupted, message:" + e.getMessage(), e);
+            }
+
+            return ids;
         });
         logger.debug("thread[" + Thread.currentThread() + "] slow insert success, took:" + (System.currentTimeMillis() - start));
         return result;

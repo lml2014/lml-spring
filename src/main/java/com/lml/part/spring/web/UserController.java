@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
+import java.util.Arrays;
+import java.util.stream.Collectors;
 
 /**
  * @author shuishan
@@ -46,6 +48,13 @@ public class UserController {
     public Object insertSlowUser(String name) {
         Assert.hasText(name, "name not empty!");
         return userService.insertSlowUser(name);
+    }
+
+    @RequestMapping("/insertSlowUsers")
+    @ResponseBody
+    public Object insertSlowUsers(String names) {
+        Assert.hasText(names, "name not empty!");
+        return userService.insertSlowUsers(Arrays.stream(names.split(",")).collect(Collectors.toList()));
     }
 
 }

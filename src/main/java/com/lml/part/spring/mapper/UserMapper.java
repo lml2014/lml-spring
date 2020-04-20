@@ -7,6 +7,12 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 /**
+ * CREATE TABLE `user` (
+ * `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+ * `name` varchar(200) DEFAULT NULL,
+ * PRIMARY KEY (`id`)
+ * ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+ *
  * @author shuishan
  * @date 2020/4/4
  */

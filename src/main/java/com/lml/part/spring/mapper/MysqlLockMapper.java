@@ -10,6 +10,13 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 /**
+ * CREATE TABLE `mysql_lock` (
+ * `key` varchar(128) NOT NULL,
+ * `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+ * `total` int(8) NOT NULL DEFAULT '1',
+ * PRIMARY KEY (`key`)
+ * ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+ *
  * @author shuishan
  * @date 2020/4/20
  */

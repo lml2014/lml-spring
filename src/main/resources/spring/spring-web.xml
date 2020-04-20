@@ -21,10 +21,10 @@
     <context:component-scan base-package="com.lml.part.spring"/>
 
     <!--启用spring的一些annotation  注册一下bean-->
-<!--    AutowiredAnnotationBeanPostProcessor-->
-<!--    CommonAnnotationBeanPostProcessor-->
-<!--    PersistenceAnnotationBeanPostProcessor-->
-<!--    RequiredAnnotationBeanPostProcessor-->
+    <!--    AutowiredAnnotationBeanPostProcessor-->
+    <!--    CommonAnnotationBeanPostProcessor-->
+    <!--    PersistenceAnnotationBeanPostProcessor-->
+    <!--    RequiredAnnotationBeanPostProcessor-->
     <context:annotation-config/>
 
     <!-- 配置注解驱动 可以将request参数与绑定到controller参数上 MVC-->
@@ -56,6 +56,10 @@
 
     <bean id="userMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
         <property name="mapperInterface" value="com.lml.part.spring.mapper.UserMapper"/>
+        <property name="sqlSessionFactory" ref="sqlSessionFactory"/>
+    </bean>
+    <bean id="mysqlLockMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+        <property name="mapperInterface" value="com.lml.part.spring.mapper.MysqlLockMapper"/>
         <property name="sqlSessionFactory" ref="sqlSessionFactory"/>
     </bean>
 

@@ -17,6 +17,10 @@ public interface IMysqlLockService {
 
     int delete(MysqlLock lock);
 
+    int batchDelete(List<MysqlLock> locks);
+
     <T> T lock(MysqlLock lock, Supplier<T> callback);
+
+    <T> T locks(List<MysqlLock> locks, Supplier<T> callback);
 
 }

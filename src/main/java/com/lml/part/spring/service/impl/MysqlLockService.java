@@ -13,6 +13,7 @@ import org.springframework.util.StringUtils;
 import javax.annotation.Resource;
 import java.util.List;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 /**
  * @author shuishan
@@ -50,6 +51,13 @@ public class MysqlLockService implements IMysqlLockService {
     }
 
     @Override
+    public int batchDelete(List<MysqlLock> locks) {
+        checkParams(locks);
+        return mysqlLockMapper.batchDelete(locks);
+    }
+
+
+    @Override
     @Transactional
     public <T> T lock(MysqlLock lock, Supplier<T> callback) {
         try {
@@ -67,6 +75,29 @@ public class MysqlLockService implements IMysqlLockService {
             logger.debug("thread[" + Thread.currentThread() + "] lock delete success, lock:" + lock.getKey());
         } catch (Exception e) {
             logger.error("thread[" + Thread.currentThread() + "] lock[" + lock.getKey() + "]  delete error," + e.getMessage(), e);
+        }
+        return result;
+    }
+
+    @Override
+    @Transactional
+    public <T> T locks(List<MysqlLock> locks, Supplier<T> callback) {
+        String keys = locks.stream().map(MysqlLock::getKey).collect(Collectors.joining(","));
+        try {
+            int row = mysqlLockMapper.batchInsert(locks);
+            logger.debug("thread[" + Thread.currentThread() + "] lock insert success, lock:" + keys + ", row:" + row);
+        } catch (Exception e) {
+            logger.error("thread[" + Thread.currentThread() + "] lock[" + keys + "] insert error," + e.getMessage(), e);
+            throw new RuntimeException(e.getMessage());
+        }
+
+        T result = callback.get();
+
+        try {
+            mysqlLockMapper.batchDelete(locks);
+            logger.debug("thread[" + Thread.currentThread() + "] lock delete success, lock:" + keys);
+        } catch (Exception e) {
+            logger.error("thread[" + Thread.currentThread() + "] lock[" + keys + "]  delete error," + e.getMessage(), e);
         }
         return result;
     }

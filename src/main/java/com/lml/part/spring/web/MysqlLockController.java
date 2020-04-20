@@ -8,6 +8,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author shuishan
@@ -30,5 +33,19 @@ public class MysqlLockController {
     @ResponseBody
     public Object delete(String key) {
         return mysqlLockService.delete(new MysqlLock(key));
+    }
+
+    @RequestMapping(value = "/insert/batch", method = RequestMethod.POST)
+    @ResponseBody
+    public Object insertBatch(String keys) {
+        List<MysqlLock> locks = Arrays.stream(keys.split(",")).map(MysqlLock::new).collect(Collectors.toList());
+        return mysqlLockService.batchInsert(locks);
+    }
+
+    @RequestMapping(value = "/delete/batch", method = RequestMethod.POST)
+    @ResponseBody
+    public Object deleteBatch(String keys) {
+        List<MysqlLock> locks = Arrays.stream(keys.split(",")).map(MysqlLock::new).collect(Collectors.toList());
+        return mysqlLockService.batchDelete(locks);
     }
 }

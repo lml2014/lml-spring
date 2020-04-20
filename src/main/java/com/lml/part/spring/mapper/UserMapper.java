@@ -20,9 +20,9 @@ public interface UserMapper {
     @Select({"select * from user where id = #{id}"})
     User selectById(Long id);
 
-    @Insert({"insert into user(name) values (#{id}))"})
-    @Options(useGeneratedKeys = true, keyProperty = "id")
-    int insert(User user);
+    @Insert({"insert into user(name) values (#{name})"})
+    @Options(useGeneratedKeys = true, keyColumn = "id")
+    int insert(String name);
 
     @Update({"update user set name = #{name} where id = #{id}"})
     void update(User user);

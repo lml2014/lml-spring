@@ -24,7 +24,7 @@ public class HelloController {
     @RequestMapping("/say")
     @ResponseBody
     public Object say(String params) {
-        logger.trace("request URL:/hello/say, params:" + params);
+        logger.debug("request URL:/hello/say, params:" + params);
         return "say hello";
     }
 

@@ -10,6 +10,11 @@ import java.util.List;
  */
 public interface IUserService {
 
+    int insert(String name);
+
+    int delete(Long id);
+
     List<User> selectAll();
 
+    int insertSlowUser(String name);
 }

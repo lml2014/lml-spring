@@ -1,5 +1,7 @@
 package com.lml.part.spring.web;
 
+import com.lml.part.spring.domain.User;
+import com.lml.part.spring.service.IHandUserService;
 import com.lml.part.spring.service.IUserService;
 import com.lml.part.spring.service.impl.UserService;
 import org.checkerframework.checker.units.qual.A;
@@ -22,12 +24,34 @@ public class UserController {
 
     @Resource
     private IUserService userService;
+    @Resource
+    private IHandUserService handUserService;
 
     @RequestMapping("/insert")
     @ResponseBody
     public Object insert(String name) {
         Assert.hasText(name, "name not empty!");
         return userService.insert(name);
+    }
+
+    @RequestMapping("/update")
+    @ResponseBody
+    public Object update(Long id, String name) {
+        User user = new User();
+        user.setId(id);
+        user.setName(name);
+        userService.update(user);
+        return "success";
+    }
+
+    @RequestMapping("/update/hand")
+    @ResponseBody
+    public Object handUpdate(Long id, String name) {
+        User user = new User();
+        user.setId(id);
+        user.setName(name);
+        handUserService.update(user);
+        return "success";
     }
 
     @RequestMapping("/delete")

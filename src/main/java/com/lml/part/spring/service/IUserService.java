@@ -12,6 +12,8 @@ public interface IUserService {
 
     int insert(String name);
 
+    void update(User user);
+
     int delete(Long id);
 
     List<User> selectAll();

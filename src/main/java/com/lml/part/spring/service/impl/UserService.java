@@ -8,6 +8,7 @@ import com.lml.part.spring.service.IUserService;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -35,6 +36,19 @@ public class UserService implements IUserService {
     public int insert(String name) {
         return userMapper.insert(name);
     }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void update(User user) {
+        Assert.notNull(user, "user not null!");
+        Assert.notNull(user.getId(), "user id not null!");
+        Assert.notNull(user.getName(), "user name not null!");
+        User u = userMapper.selectById(user.getId());
+        Assert.notNull(u, "can't find user by id.");
+        userMapper.update(user);
+    }
+
+
 
     @Override
     public int delete(Long id) {

@@ -7,6 +7,7 @@ import com.lml.part.spring.service.impl.UserService;
 import org.checkerframework.checker.units.qual.A;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -46,10 +47,7 @@ public class UserController {
 
     @RequestMapping("/update/hand")
     @ResponseBody
-    public Object handUpdate(Long id, String name) {
-        User user = new User();
-        user.setId(id);
-        user.setName(name);
+    public Object handUpdate(@RequestBody User user) {
         handUserService.update(user);
         return "success";
     }

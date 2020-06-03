@@ -38,7 +38,8 @@ public class UserService implements IUserService {
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
+    @Transactional
+//    @Transactional(rollbackFor = Exception.class)
     public void update(User user) {
         Assert.notNull(user, "user not null!");
         Assert.notNull(user.getId(), "user id not null!");
@@ -47,7 +48,6 @@ public class UserService implements IUserService {
         Assert.notNull(u, "can't find user by id.");
         userMapper.update(user);
     }
-
 
 
     @Override

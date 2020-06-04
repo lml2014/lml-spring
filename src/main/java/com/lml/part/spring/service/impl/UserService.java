@@ -1,5 +1,7 @@
 package com.lml.part.spring.service.impl;
 
+import com.lml.part.spring.business.user.NameLengthSingle;
+import com.lml.part.spring.business.user.NameLengthTwo;
 import com.lml.part.spring.domain.MysqlLock;
 import com.lml.part.spring.domain.User;
 import com.lml.part.spring.mapper.UserMapper;
@@ -27,6 +29,10 @@ public class UserService implements IUserService {
     private UserMapper userMapper;
     @Resource
     private IMysqlLockService mysqlLockService;
+    @Resource
+    private NameLengthSingle nameLengthSingle;
+    @Resource
+    private NameLengthTwo nameLengthTwo;
 
     private MysqlLock buildLock(String name) {
         return new MysqlLock("user_" + name);
@@ -101,6 +107,14 @@ public class UserService implements IUserService {
         });
         logger.debug("thread[" + Thread.currentThread() + "] slow insert success, took:" + (System.currentTimeMillis() - start));
         return result;
+    }
+
+    @Override
+    public List<String> splitNames(Integer type, String[] names) {
+        if (type == null || type == 0) {
+            return nameLengthSingle.splitName(names);
+        }
+        return nameLengthTwo.splitName(names);
     }
 
 }

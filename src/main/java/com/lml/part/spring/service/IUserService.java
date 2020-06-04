@@ -21,4 +21,7 @@ public interface IUserService {
     int insertSlowUser(String name);
 
     List<Integer> insertSlowUsers(List<String> names);
+
+    List<String> splitNames(Integer type, String[] names);
+
 }

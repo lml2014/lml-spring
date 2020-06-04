@@ -79,4 +79,12 @@ public class UserController {
         return userService.insertSlowUsers(Arrays.stream(names.split(",")).collect(Collectors.toList()));
     }
 
+    @RequestMapping("/splitName")
+    @ResponseBody
+    public Object splitName(Integer type, String names) {
+        Assert.notNull(type, "type not null!");
+        Assert.hasText(names, "names not empty!");
+        return userService.splitNames(type, names.split(","));
+    }
+
 }
